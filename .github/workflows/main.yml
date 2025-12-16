@@ -233,9 +233,8 @@ jobs:
       
       - name: Upload Android APK
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Android-APK
-          path: |
-            **/*.apk
+          name: gfxbench-android-apk
+          path: archive/*.apk
           retention-days: 30
