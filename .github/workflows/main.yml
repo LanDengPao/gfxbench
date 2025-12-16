@@ -230,3 +230,12 @@ jobs:
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
         run: |
           ./scripts/build-multiarch-apk.sh
+      
+      - name: Upload Android APK
+        if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: Android-APK
+          path: |
+            **/*.apk
+          retention-days: 30
