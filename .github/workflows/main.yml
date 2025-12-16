@@ -153,6 +153,7 @@ jobs:
           echo "PLATFORM=android" >> $GITHUB_ENV
           echo "PLATFORMS=android-arm64-v8a" >> $GITHUB_ENV
           echo "CUDAToolkit_ROOT=/usr/local/cuda" >> $GITHUB_ENV
+          echo "PRODUCT_ID=gfxbench_vulkan" >> $GITHUB_ENV
 
       - name: Install Linux/Android Dependencies
         if: ${{ (matrix.platform == 'linux_wayland' && (inputs.platform == 'linux_wayland' || inputs.platform == 'both')) || (matrix.platform == 'linux_vulkan' && (inputs.platform == 'linux_vulkan' || inputs.platform == 'both')) || (matrix.platform == 'linux_gl' && (inputs.platform == 'linux_gl' || inputs.platform == 'both')) || (matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both')) }}
