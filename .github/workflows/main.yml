@@ -47,6 +47,14 @@ jobs:
             runner: ubuntu-22.04
     runs-on: ${{ matrix.runner }}
     steps:
+    
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h
+        
       - name: Checkout code
         if: ${{ inputs.platform == 'both' || matrix.platform == inputs.platform }}
         uses: actions/checkout@v4
