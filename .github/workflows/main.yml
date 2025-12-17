@@ -45,7 +45,10 @@ jobs:
           - platform: android
             os: ubuntu-22.04
             runner: ubuntu-22.04
-    runs-on: ${{ matrix.runner }}
+    # runs-on: ${{ matrix.runner }}
+    
+    runs-on: self-hosted
+    
     steps:
     
       - name: Checkout code
@@ -138,17 +141,6 @@ jobs:
           echo "PLATFORM=vs2022-arm64" >> $GITHUB_ENV
           echo "WORKSPACE=$PWD" >> $GITHUB_ENV
           echo "APPLICATION_TYPE=gui" >> $GITHUB_ENV
-          
-      - name: Clean workspace
-        if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
-        run: |
-          sudo rm -rf out/ tfw-pkg/ archive/ 2>/dev/null || true
-          df -h
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
           
       - name: Setup Android Environment
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
