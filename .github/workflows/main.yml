@@ -45,7 +45,9 @@ jobs:
           - platform: android
             os: ubuntu-22.04
             runner: ubuntu-22.04
-    runs-on: ${{ matrix.runner }}
+    # runs-on: ${{ matrix.runner }}
+    runs-on: self-hosted
+    
     steps:
       - name: Checkout code
         if: ${{ inputs.platform == 'both' || matrix.platform == inputs.platform }}
