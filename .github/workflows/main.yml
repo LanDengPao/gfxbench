@@ -45,12 +45,8 @@ jobs:
           - platform: android
             os: ubuntu-22.04
             runner: ubuntu-22.04
-    # runs-on: ${{ matrix.runner }}
-    
-    runs-on: self-hosted
-    
+    runs-on: ${{ matrix.runner }}
     steps:
-    
       - name: Checkout code
         if: ${{ inputs.platform == 'both' || matrix.platform == inputs.platform }}
         uses: actions/checkout@v4
@@ -141,7 +137,7 @@ jobs:
           echo "PLATFORM=vs2022-arm64" >> $GITHUB_ENV
           echo "WORKSPACE=$PWD" >> $GITHUB_ENV
           echo "APPLICATION_TYPE=gui" >> $GITHUB_ENV
-          
+
       - name: Setup Android Environment
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
         run: |
@@ -151,7 +147,7 @@ jobs:
           echo "NG_CMAKE_TOOLCHAIN_FILE=$HOME/android-sdk/ndk/28.0.12674087/build/cmake/android.toolchain.cmake" >> $GITHUB_ENV
           echo "CONFIG=Release" >> $GITHUB_ENV
           echo "WORKSPACE=${{ github.workspace }}" >> $GITHUB_ENV
-          echo "BUNDLE_DATA=true" >> $GITHUB_ENV
+          echo "BUNDLE_DATA=false" >> $GITHUB_ENV
           echo "MAKEFLAGS=-j$(nproc)" >> $GITHUB_ENV
           echo "ANDROID_SDK_ROOT=/tmp/android_sdk/" >> $GITHUB_ENV
           echo "PLATFORM=android" >> $GITHUB_ENV
@@ -234,11 +230,13 @@ jobs:
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
         run: |
           ./scripts/build-multiarch-apk.sh
-      
+          
       - name: Upload Android APK
         if: ${{ matrix.platform == 'android' && (inputs.platform == 'android' || inputs.platform == 'both') }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: gfxbench-android-apk
-          path: archive/*.apk
-          retention-days: 30
+          name: Android-APK
+          path: |
+            **/*.apk
+          retention-days: 90
+          
